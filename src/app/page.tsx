@@ -40,7 +40,7 @@ export default function LandingPage() {
           Discover tailored solutions to enhance patient care, surgical precision, and medical training.
         </p>
         {/* Unified CTA container */}
-        <div className="flex flex-col items-center gap-y-6">
+        <div className="flex flex-col md:flex-row items-center md:items-start justify-center gap-6 pt-4">
           {/* Primary CTA group */}
           <div className="flex flex-col items-center gap-y-2">
             <Link href="/diagnostic" passHref>
@@ -55,7 +55,7 @@ export default function LandingPage() {
             </div>
           </div>
           {/* Secondary CTA group */}
-          <div>
+          <div className="flex flex-col items-center"> {/* Ensured this group also aligns its content, useful if helper text were added here */}
            <Link href="/providers" passHref>
               <Button variant="secondary" size="lg" className="text-lg px-8 py-6">
                 <Search className="mr-2 h-5 w-5" />
@@ -69,11 +69,11 @@ export default function LandingPage() {
       <section>
         <div className="relative w-full h-64 md:h-96 rounded-xl overflow-hidden shadow-xl">
           <Image
-            src="https://placehold.co/1200x600.png"
-            alt="Doctor using AR headset for surgery or medical analysis - futuristic operating room"
+            src="https://placehold.co/1200x400.png"
+            alt="Doctor using AR headset in a modern medical setting"
             layout="fill"
             objectFit="cover"
-            data-ai-hint="medical AR surgery"
+            data-ai-hint="medical technology AR"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-primary/50 to-transparent"></div>
            <div className="absolute bottom-0 left-0 p-6 md:p-10">
