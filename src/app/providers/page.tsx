@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { Search, ListFilter, Tags, Cpu } from 'lucide-react'; 
+import { Search, Tags, Cpu } from 'lucide-react'; 
 
 export default function ProvidersPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -87,8 +87,13 @@ export default function ProvidersPage() {
             <div className="space-y-3">
               <h3 className="text-lg font-medium text-foreground flex items-center">
                 <Tags className="h-5 w-5 mr-2 text-primary" /> Filter by Specialty
+                {selectedSpecialties.length > 0 && (
+                  <span className="ml-2 text-xs font-normal text-muted-foreground">
+                    ({selectedSpecialties.length} selected)
+                  </span>
+                )}
               </h3>
-              <div className="space-y-2 max-h-60 overflow-y-auto pr-2 rounded-md border p-3 bg-muted/20">
+              <div className="space-y-2 max-h-60 overflow-y-auto pr-2 rounded-lg border p-4 bg-muted/40 shadow-inner">
                 {allSpecialties.map(specialty => (
                   <div key={specialty} className="flex items-center space-x-2">
                     <Checkbox
@@ -107,8 +112,13 @@ export default function ProvidersPage() {
             <div className="space-y-3">
               <h3 className="text-lg font-medium text-foreground flex items-center">
                 <Cpu className="h-5 w-5 mr-2 text-primary" /> Filter by Technology
+                {selectedTechnologies.length > 0 && (
+                  <span className="ml-2 text-xs font-normal text-muted-foreground">
+                    ({selectedTechnologies.length} selected)
+                  </span>
+                )}
               </h3>
-              <div className="space-y-2 max-h-60 overflow-y-auto pr-2 rounded-md border p-3 bg-muted/20">
+              <div className="space-y-2 max-h-60 overflow-y-auto pr-2 rounded-lg border p-4 bg-muted/40 shadow-inner">
                 {allTechnologies.map(tech => (
                   <div key={tech} className="flex items-center space-x-2">
                     <Checkbox
@@ -145,3 +155,4 @@ export default function ProvidersPage() {
     </div>
   );
 }
+
