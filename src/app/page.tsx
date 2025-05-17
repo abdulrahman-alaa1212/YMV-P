@@ -39,9 +39,9 @@ export default function LandingPage() {
           AR/MR Advisor helps hospitals like yours navigate the complex landscape of Augmented and Mixed Reality.
           Discover tailored solutions to enhance patient care, surgical precision, and medical training.
         </p>
-        {/* Unified CTA container */}
-        <div className="flex flex-col md:flex-row items-center md:items-start justify-center gap-6 pt-4">
-          {/* Primary CTA group */}
+        
+        {/* Section for Start Diagnostic CTA */}
+        <div className="pt-4">
           <div className="flex flex-col items-center gap-y-2">
             <Link href="/diagnostic" passHref>
               <Button size="lg" className="text-lg px-8 py-6">
@@ -54,8 +54,11 @@ export default function LandingPage() {
               <span>Quick Assessment (approx. 3 min)</span>
             </div>
           </div>
-          {/* Secondary CTA group */}
-          <div className="flex flex-col items-center"> {/* Ensured this group also aligns its content, useful if helper text were added here */}
+        </div>
+
+        {/* Section for Explore Providers CTA */}
+        <div className="pt-6">
+          <div className="flex flex-col items-center">
            <Link href="/providers" passHref>
               <Button variant="secondary" size="lg" className="text-lg px-8 py-6">
                 <Search className="mr-2 h-5 w-5" />
@@ -69,7 +72,7 @@ export default function LandingPage() {
       <section>
         <div className="relative w-full h-64 md:h-96 rounded-xl overflow-hidden shadow-xl">
           <Image
-            src="https://placehold.co/1200x400.png"
+            src="https://placehold.co/1200x600.png"
             alt="Doctor using AR headset in a modern medical setting"
             layout="fill"
             objectFit="cover"
