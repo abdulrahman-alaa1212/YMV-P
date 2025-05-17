@@ -93,7 +93,7 @@ export default function ProvidersPage() {
                   </span>
                 )}
               </h3>
-              <div className="space-y-2 max-h-60 overflow-y-auto pr-2 rounded-lg border p-4 bg-muted/40 shadow-inner">
+              <div className="space-y-2 mt-2">
                 {allSpecialties.map(specialty => (
                   <div key={specialty} className="flex items-center space-x-2">
                     <Checkbox
@@ -118,7 +118,7 @@ export default function ProvidersPage() {
                   </span>
                 )}
               </h3>
-              <div className="space-y-2 max-h-60 overflow-y-auto pr-2 rounded-lg border p-4 bg-muted/40 shadow-inner">
+              <div className="space-y-2 mt-2">
                 {allTechnologies.map(tech => (
                   <div key={tech} className="flex items-center space-x-2">
                     <Checkbox
@@ -155,4 +155,3 @@ export default function ProvidersPage() {
     </div>
   );
 }
-
