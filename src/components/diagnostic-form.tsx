@@ -24,17 +24,20 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Hospital, Scaling, Stethoscope, Sparkles, FileText, Send } from "lucide-react";
-import { HospitalProfileInput, RecommendationOutput } from '@/ai/flows/generate-personalized-recommendations'; // Assuming this type is defined
+import type { HospitalProfileInput, RecommendationOutput } from '@/ai/flows/generate-personalized-recommendations';
 import { getPersonalizedRecommendationsAction } from "@/app/diagnostic/actions";
 
 
 // Schema for form validation, based on HospitalProfileInput from the AI flow
 const formSchema = z.object({
-  hospitalName: z.string().min(2, "Hospital name must be at least 2 characters."),
-  hospitalSize: z.enum(["small", "medium", "large"], { required_error: "Please select hospital size." }),
-  specialties: z.string().min(5, "Please list at least one specialty or area of focus."),
-  arMrExperience: z.enum(["none", "some", "extensive"], { required_error: "Please select AR/MR experience level." }),
-  needsAssessment: z.string().min(20, "Needs assessment must be at least 20 characters long.").max(2000, "Needs assessment cannot exceed 2000 characters."),
+  hospitalName: z.string().min(1, { message: "Hospital name is required." }).min(2, "Hospital name must be at least 2 characters."),
+  hospitalSize: z.enum(["small", "medium", "large"], { required_error: "Please select hospital size. This field is required." }),
+  specialties: z.string().min(1, { message: "Medical specialties are required." }).min(5, "Please list at least one specialty or area of focus (min 5 characters)."),
+  arMrExperience: z.enum(["none", "some", "extensive"], { required_error: "Please select AR/MR experience level. This field is required." }),
+  needsAssessment: z.string()
+    .min(1, { message: "Needs assessment is required."})
+    .min(20, { message: "Needs assessment must be at least 20 characters long." })
+    .max(2000, { message: "Needs assessment cannot exceed 2000 characters." }),
 });
 
 type DiagnosticFormValues = z.infer<typeof formSchema>;
@@ -172,13 +175,13 @@ export function DiagnosticForm({ onSuccess, onLoadingChange, onError }: Diagnost
               <FormLabel className="flex items-center text-lg"><FileText className="mr-2 h-5 w-5 text-primary" />Needs Assessment</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Describe specific challenges, goals, or areas where AR/MR could help. For example: 'We want to improve surgical navigation accuracy using AR for orthopedic procedures,' or 'Enhance medical training for complex cardiac surgeries with MR simulations,' or 'Provide AR-based tools for better patient education regarding post-operative care.'"
+                  placeholder="Describe specific challenges, goals, or areas where AR/MR could help. For example: 'Improve surgical navigation for orthopedics,' or 'Enhance training for cardiac surgery,' or 'Provide AR tools for patient education.'"
                   className="resize-y min-h-[150px] text-base"
                   {...field}
                 />
               </FormControl>
               <FormDescription>
-                Detail your hospital's needs and challenges that AR/MR technologies could address. Be specific.
+                Detail your hospital's needs and challenges that AR/MR technologies could address. Be specific. (Min 20 characters, Max 2000 characters)
               </FormDescription>
               <FormMessage />
             </FormItem>
