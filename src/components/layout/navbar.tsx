@@ -25,7 +25,7 @@ export function Navbar() {
     <header className="bg-card shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 text-primary hover:text-primary/90 transition-colors">
-          <Image src="/yura-logo.png" alt="Yura Mid-Vision Logo" width={32} height={32} className="h-8 w-8 dark:bg-slate-100 dark:p-0.5 dark:rounded-sm" />
+          <Image src="/yura-1.png" alt="Yura Mid-Vision Logo" width={32} height={32} className="h-8 w-8 dark:bg-slate-100 dark:p-0.5 dark:rounded-sm" />
           <h1 className="text-xl font-bold">Yura Mid-Vision</h1>
         </Link>
         <nav className="flex items-center gap-1 sm:gap-2">
@@ -46,9 +46,8 @@ export function Navbar() {
               </Link>
             );
           })}
-          {/* Auth links separated for clarity, can be conditionally rendered later based on auth state */}
           {authNavItems.map((item) => {
-            const isActive = pathname === item.href || (item.href === '/login' && pathname === '/register');
+            const isActive = pathname === item.href || (item.href === '/login' && (pathname === '/register' || pathname === '/forgot-password'));
             return (
               <Link key={item.href} href={item.href} legacyBehavior passHref>
                 <Button
