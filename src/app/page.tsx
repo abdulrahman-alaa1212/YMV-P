@@ -57,8 +57,11 @@ export default function LandingPage() {
         </div>
 
         {/* Section for Explore Providers CTA */}
-        <div className="pt-6">
-          <div className="flex flex-col items-center">
+        <div className="pt-8"> {/* Increased top padding for better separation */}
+          <div className="flex flex-col items-center space-y-3"> {/* Added space-y-3 for spacing between text and button */}
+            <p className="text-md text-foreground max-w-xl mx-auto">
+              Or, browse our curated directory of leading AR/MR solution providers to find the perfect match for your hospital's unique requirements.
+            </p>
            <Link href="/providers" passHref>
               <Button variant="secondary" size="lg" className="text-lg px-8 py-6">
                 <Search className="mr-2 h-5 w-5" />
