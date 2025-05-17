@@ -51,6 +51,7 @@ export default function LoginPage() {
     if (values.email === 'admin' && values.password === 'admin') {
       await new Promise(resolve => setTimeout(resolve, 500)); // Short delay for simulation
       localStorage.setItem('isAdminAuthenticated', 'true'); // Set admin auth flag
+      window.dispatchEvent(new Event('adminAuthChanged')); // Notify navbar
       setIsLoading(false);
       router.push('/admin');
       return;
@@ -85,6 +86,7 @@ export default function LoginPage() {
     setIsLoading(false);
     // For demonstration, let's assume login is successful for regular users
     localStorage.removeItem('isAdminAuthenticated'); // Ensure admin flag is cleared for non-admin logins
+    window.dispatchEvent(new Event('adminAuthChanged')); // Notify navbar
     alert('Login successful (simulated for regular user). Redirecting...');
     router.push('/'); 
   }
@@ -176,5 +178,3 @@ export default function LoginPage() {
     </div>
   );
 }
-
-    

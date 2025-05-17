@@ -6,12 +6,12 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Home, ClipboardCheck, List, ShieldCheck, LogIn } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
 
-const navItems = [
+const mainNavItems = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/diagnostic', label: 'Diagnostic Tool', icon: ClipboardCheck },
   { href: '/providers', label: 'Providers', icon: List },
-  { href: '/admin', label: 'Admin', icon: ShieldCheck },
 ];
 
 const authNavItems = [
@@ -20,6 +20,32 @@ const authNavItems = [
 
 export function Navbar() {
   const pathname = usePathname();
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const checkAdminStatus = () => {
+      const adminAuth = localStorage.getItem('isAdminAuthenticated');
+      setIsAdminLoggedIn(adminAuth === 'true');
+    };
+
+    checkAdminStatus(); // Check on initial load
+
+    // Listen for storage changes to update status if login/logout happens in another tab/window
+    window.addEventListener('storage', checkAdminStatus);
+
+    // Listen for a custom event that can be dispatched from the login/logout pages
+    // This helps update the navbar immediately without a page reload
+    const handleAdminAuthChange = () => {
+        checkAdminStatus();
+    };
+    window.addEventListener('adminAuthChanged', handleAdminAuthChange);
+
+
+    return () => {
+      window.removeEventListener('storage', checkAdminStatus);
+      window.removeEventListener('adminAuthChanged', handleAdminAuthChange);
+    };
+  }, []);
 
   return (
     <header className="bg-card shadow-md sticky top-0 z-50">
@@ -29,7 +55,7 @@ export function Navbar() {
           <h1 className="text-xl font-bold">Yura Mid-Vision</h1>
         </Link>
         <nav className="flex items-center gap-1 sm:gap-2">
-          {navItems.map((item) => {
+          {mainNavItems.map((item) => {
             const isActive = pathname === item.href;
             return (
               <Link key={item.href} href={item.href} legacyBehavior passHref>
@@ -46,6 +72,20 @@ export function Navbar() {
               </Link>
             );
           })}
+          {isAdminLoggedIn && (
+            <Link href="/admin" legacyBehavior passHref>
+              <Button
+                variant={pathname === '/admin' ? 'default' : 'ghost'}
+                className={cn(
+                  "text-sm font-medium",
+                  pathname === '/admin' ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-accent hover:text-accent-foreground"
+                )}
+              >
+                <ShieldCheck className="mr-0 sm:mr-2 h-4 w-4" />
+                <span className="hidden sm:inline">Admin</span>
+              </Button>
+            </Link>
+          )}
           {authNavItems.map((item) => {
             const isActive = pathname === item.href || (item.href === '/login' && (pathname === '/register' || pathname === '/forgot-password'));
             return (

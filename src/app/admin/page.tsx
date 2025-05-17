@@ -1,31 +1,31 @@
 
-"use client"; // This is crucial for using hooks like useEffect and useState
+"use client"; 
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Settings, LayoutList, FileText, LogOut } from 'lucide-react';
-import { Loader2 } from 'lucide-react'; // For loading state
+import { Loader2 } from 'lucide-react'; 
 
 export default function AdminPage() {
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // Start with loading true
+  const [isLoading, setIsLoading] = useState(true); 
 
   useEffect(() => {
-    // Check for authentication status on client-side
     const adminAuth = localStorage.getItem('isAdminAuthenticated');
     if (adminAuth === 'true') {
       setIsAuthenticated(true);
     } else {
-      router.push('/login'); // Redirect to login if not authenticated
+      router.push('/login'); 
     }
-    setIsLoading(false); // Set loading to false after check
+    setIsLoading(false); 
   }, [router]);
 
   const handleLogout = () => {
     localStorage.removeItem('isAdminAuthenticated');
+    window.dispatchEvent(new Event('adminAuthChanged')); // Notify navbar
     router.push('/login');
   };
 
@@ -110,5 +110,3 @@ export default function AdminPage() {
     </div>
   );
 }
-
-    
