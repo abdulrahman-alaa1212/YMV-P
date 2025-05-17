@@ -11,8 +11,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'AR/MR Advisor',
-  description: 'Personalized AR/MR technology recommendations for hospitals.',
+  title: 'Yura Mid-Vision',
+  description: 'Revolutionizing healthcare with Yura Mid-Vision\'s AR/MR solutions.',
 };
 
 export default function RootLayout({

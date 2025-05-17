@@ -36,7 +36,7 @@ export default function LandingPage() {
           Unlock the Future of Healthcare with AR/MR
         </h1>
         <p className="text-lg md:text-xl text-foreground max-w-3xl mx-auto">
-          AR/MR Advisor helps hospitals like yours navigate the complex landscape of Augmented and Mixed Reality.
+          Yura Mid-Vision helps hospitals like yours navigate the complex landscape of Augmented and Mixed Reality.
           Discover tailored solutions to enhance patient care, surgical precision, and medical training.
         </p>
         
@@ -74,7 +74,7 @@ export default function LandingPage() {
       </section>
 
       <section className="space-y-8">
-        <h2 className="text-3xl font-bold text-center text-primary">How AR/MR Advisor Works</h2>
+        <h2 className="text-3xl font-bold text-center text-primary">How Yura Mid-Vision Works</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((feature) => (
             <Card key={feature.title} className="text-center shadow-lg hover:shadow-xl transition-shadow duration-300">
