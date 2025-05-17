@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { Search, ListFilter, Tags, CpuChip } from 'lucide-react'; // Assuming CpuChip is a good icon for technology
+import { Search, ListFilter, Tags, Cpu } from 'lucide-react'; 
 
 export default function ProvidersPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -28,13 +28,13 @@ export default function ProvidersPage() {
     return Array.from(technologies).sort();
   }, []);
 
-  const handleSpecialtyChange = (specialty: string, checked: boolean) => {
+  const handleSpecialtyChange = (specialty: string, checked: boolean | string) => {
     setSelectedSpecialties(prev => 
       checked ? [...prev, specialty] : prev.filter(s => s !== specialty)
     );
   };
 
-  const handleTechnologyChange = (technology: string, checked: boolean) => {
+  const handleTechnologyChange = (technology: string, checked: boolean | string) => {
     setSelectedTechnologies(prev => 
       checked ? [...prev, technology] : prev.filter(t => t !== technology)
     );
@@ -94,7 +94,7 @@ export default function ProvidersPage() {
                     <Checkbox
                       id={`specialty-${specialty}`}
                       checked={selectedSpecialties.includes(specialty)}
-                      onCheckedChange={(checked) => handleSpecialtyChange(specialty, !!checked)}
+                      onCheckedChange={(checked) => handleSpecialtyChange(specialty, checked)}
                     />
                     <Label htmlFor={`specialty-${specialty}`} className="text-sm font-normal capitalize cursor-pointer">
                       {specialty}
@@ -106,7 +106,7 @@ export default function ProvidersPage() {
 
             <div className="space-y-3">
               <h3 className="text-lg font-medium text-foreground flex items-center">
-                <CpuChip className="h-5 w-5 mr-2 text-primary" /> Filter by Technology
+                <Cpu className="h-5 w-5 mr-2 text-primary" /> Filter by Technology
               </h3>
               <div className="space-y-2 max-h-60 overflow-y-auto pr-2 rounded-md border p-3 bg-muted/20">
                 {allTechnologies.map(tech => (
@@ -114,7 +114,7 @@ export default function ProvidersPage() {
                     <Checkbox
                       id={`tech-${tech}`}
                       checked={selectedTechnologies.includes(tech)}
-                      onCheckedChange={(checked) => handleTechnologyChange(tech, !!checked)}
+                      onCheckedChange={(checked) => handleTechnologyChange(tech, checked)}
                     />
                     <Label htmlFor={`tech-${tech}`} className="text-sm font-normal capitalize cursor-pointer">
                        {tech}
