@@ -40,7 +40,6 @@ export default function LandingPage() {
           Discover tailored solutions to enhance patient care, surgical precision, and medical training.
         </p>
         
-        {/* Section for Start Diagnostic CTA */}
         <div className="pt-4">
           <div className="flex flex-col items-center gap-y-2">
             <Link href="/diagnostic" passHref>
@@ -56,9 +55,8 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* Section for Explore Providers CTA */}
-        <div className="pt-8"> {/* Increased top padding for better separation */}
-          <div className="flex flex-col items-center space-y-3"> {/* Added space-y-3 for spacing between text and button */}
+        <div className="pt-8">
+          <div className="flex flex-col items-center space-y-3">
             <p className="text-md text-foreground max-w-xl mx-auto">
               Or, browse our curated directory of leading AR/MR solution providers to find the perfect match for your hospital's unique requirements.
             </p>
@@ -68,24 +66,6 @@ export default function LandingPage() {
                 Explore Providers
               </Button>
             </Link>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <div className="relative w-full h-64 md:h-96 rounded-xl overflow-hidden shadow-xl">
-          <Image
-            src="https://placehold.co/1200x600.png"
-            alt="Doctor using AR headset in a modern medical setting"
-            layout="fill"
-            objectFit="cover"
-            data-ai-hint="medical technology AR"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-primary/50 to-transparent"></div>
-           <div className="absolute bottom-0 left-0 p-6 md:p-10">
-            <h2 className="text-2xl md:text-4xl font-semibold text-primary-foreground drop-shadow-md">
-              Revolutionize Your Medical Practice
-            </h2>
           </div>
         </div>
       </section>
@@ -107,21 +87,23 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="bg-card p-8 md:p-12 rounded-xl shadow-xl md:grid md:grid-cols-5 md:gap-8 md:items-center">
-        <div className="space-y-4 md:col-span-3 text-center md:text-left">
-          <h2 className="text-3xl font-bold text-primary">
-            Ready to Transform Your Hospital?
-          </h2>
-          <p className="text-lg text-foreground max-w-2xl mx-auto md:mx-0 md:max-w-none">
-            Take the first step towards integrating cutting-edge AR/MR solutions. Our tools are designed to provide clarity and direction.
-          </p>
-        </div>
-        <div className="mt-6 md:mt-0 md:col-span-2 flex md:justify-end justify-center">
-          <Link href="/diagnostic" passHref>
-            <Button size="lg" className="text-lg px-8 py-6">
-              Get Started Now
-            </Button>
-          </Link>
+      <section className="bg-card p-8 md:p-12 rounded-xl shadow-xl">
+        <div className="md:grid md:grid-cols-5 md:gap-8 md:items-center">
+            <div className="space-y-4 md:col-span-3 text-center md:text-left">
+              <h2 className="text-3xl font-bold text-primary">
+                Ready to Transform Your Hospital?
+              </h2>
+              <p className="text-lg text-foreground max-w-2xl mx-auto md:mx-0 md:max-w-none">
+                Take the first step towards integrating cutting-edge AR/MR solutions. Our tools are designed to provide clarity and direction.
+              </p>
+            </div>
+            <div className="mt-6 md:mt-0 md:col-span-2 flex md:justify-end justify-center">
+              <Link href="/diagnostic" passHref>
+                <Button size="lg" className="text-lg px-8 py-6">
+                  Get Started Now
+                </Button>
+              </Link>
+            </div>
         </div>
       </section>
     </div>
