@@ -39,33 +39,38 @@ export default function LandingPage() {
           AR/MR Advisor helps hospitals like yours navigate the complex landscape of Augmented and Mixed Reality.
           Discover tailored solutions to enhance patient care, surgical precision, and medical training.
         </p>
-        <div className="flex flex-col gap-4 justify-center items-center pt-4">
-          <Link href="/diagnostic" passHref>
-            <Button size="lg" className="text-lg px-8 py-6">
-              <PlayCircle className="mr-2 h-5 w-5" />
-              Start Diagnostic
-            </Button>
-          </Link>
-          <div className="flex items-center text-sm text-muted-foreground">
-            <Clock3 className="mr-1 h-4 w-4" />
-            <span>Quick Assessment (approx. 3 min)</span>
+        {/* Unified CTA container */}
+        <div className="flex flex-col items-center gap-y-6">
+          {/* Primary CTA group */}
+          <div className="flex flex-col items-center gap-y-2">
+            <Link href="/diagnostic" passHref>
+              <Button size="lg" className="text-lg px-8 py-6">
+                <PlayCircle className="mr-2 h-5 w-5" />
+                Start Diagnostic
+              </Button>
+            </Link>
+            <div className="flex items-center text-sm text-muted-foreground">
+              <Clock3 className="mr-1 h-4 w-4" />
+              <span>Quick Assessment (approx. 3 min)</span>
+            </div>
           </div>
-        </div>
-        <div className="pt-2">
-         <Link href="/providers" passHref>
-            <Button variant="secondary" size="lg" className="text-lg px-8 py-6">
-              <Search className="mr-2 h-5 w-5" />
-              Explore Providers
-            </Button>
-          </Link>
+          {/* Secondary CTA group */}
+          <div>
+           <Link href="/providers" passHref>
+              <Button variant="secondary" size="lg" className="text-lg px-8 py-6">
+                <Search className="mr-2 h-5 w-5" />
+                Explore Providers
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
 
       <section>
         <div className="relative w-full h-64 md:h-96 rounded-xl overflow-hidden shadow-xl">
           <Image
-            src="https://placehold.co/1200x400.png"
-            alt="Doctor using AR headset for surgery or medical analysis"
+            src="https://placehold.co/1200x600.png"
+            alt="Doctor using AR headset for surgery or medical analysis - futuristic operating room"
             layout="fill"
             objectFit="cover"
             data-ai-hint="medical AR surgery"
@@ -96,8 +101,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="text-center md:text-left bg-card p-8 md:p-12 rounded-xl shadow-xl md:grid md:grid-cols-5 md:gap-8 md:items-center">
-        <div className="space-y-4 md:col-span-3">
+      <section className="bg-card p-8 md:p-12 rounded-xl shadow-xl md:grid md:grid-cols-5 md:gap-8 md:items-center">
+        <div className="space-y-4 md:col-span-3 text-center md:text-left">
           <h2 className="text-3xl font-bold text-primary">
             Ready to Transform Your Hospital?
           </h2>
