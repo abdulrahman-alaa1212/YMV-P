@@ -39,7 +39,7 @@ export default function LandingPage() {
           AR/MR Advisor helps hospitals like yours navigate the complex landscape of Augmented and Mixed Reality.
           Discover tailored solutions to enhance patient care, surgical precision, and medical training.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 items-center">
+        <div className="flex flex-col gap-4 justify-center pt-4 items-center">
           <Link href="/diagnostic" passHref>
             <Button size="lg" className="text-lg px-8 py-6">
               <PlayCircle className="mr-2 h-5 w-5" />
@@ -64,8 +64,8 @@ export default function LandingPage() {
       <section>
         <div className="relative w-full h-64 md:h-96 rounded-xl overflow-hidden shadow-xl">
           <Image
-            src="https://placehold.co/1200x600.png"
-            alt="Futuristic healthcare technology with AR/MR overlay"
+            src="https://placehold.co/1200x400.png"
+            alt="Futuristic healthcare technology with AR/MR overlay showing a doctor interacting with a holographic patient interface."
             layout="fill"
             objectFit="cover"
             data-ai-hint="medical AR overlay"
