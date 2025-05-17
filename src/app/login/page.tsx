@@ -15,14 +15,16 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { LogIn, Mail, Lock } from 'lucide-react';
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation'; // Or from 'next/router' for Pages Router
+import { useRouter } from 'next/navigation'; 
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email address.' }),
   password: z.string().min(1, { message: 'Password is required.' }),
+  rememberMe: z.boolean().default(false).optional(),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
@@ -37,27 +39,53 @@ export default function LoginPage() {
     defaultValues: {
       email: '',
       password: '',
+      rememberMe: false,
     },
   });
 
   async function onSubmit(values: LoginFormValues) {
     setIsLoading(true);
     setServerError(null);
-    // Simulate API call
+
+    // Simulate Admin Login
+    if (values.email === 'admin' && values.password === 'admin') {
+      await new Promise(resolve => setTimeout(resolve, 500)); // Short delay for simulation
+      setIsLoading(false);
+      alert('Admin login successful (simulated). Redirecting to admin dashboard...');
+      router.push('/admin');
+      return;
+    }
+
+    // Simulate regular API call
     await new Promise(resolve => setTimeout(resolve, 1000));
     console.log('Login submitted:', values);
     // In a real app, you'd call your auth API here.
-    // Example:
-    // const response = await signInWithEmailAndPassword(auth, values.email, values.password);
-    // if (response.user) {
-    //   router.push('/'); // Redirect to dashboard or home
-    // } else {
-    //   setServerError("Invalid email or password.");
+    // Example with Firebase:
+    // try {
+    //   if (values.rememberMe) {
+    //     await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+    //   } else {
+    //     await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
+    //   }
+    //   const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
+    //   if (userCredential.user) {
+    //      router.push('/'); // Redirect to dashboard or home
+    //   }
+    // } catch (error: any) {
+    //   if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+    //     setServerError("Invalid email or password.");
+    //   } else if (error.code === 'auth/too-many-requests') {
+    //     setServerError("Too many failed login attempts. Please try again later or reset your password.");
+    //   }
+    //   else {
+    //     setServerError("An unexpected error occurred. Please try again.");
+    //   }
+    //   console.error("Login error:", error);
     // }
     setIsLoading(false);
     // For demonstration, let's assume login is successful
-    // router.push('/'); // Uncomment and adjust for actual navigation
     alert('Login successful (simulated). Redirecting...');
+    router.push('/'); 
   }
 
   return (
@@ -98,6 +126,24 @@ export default function LoginPage() {
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="rememberMe"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel className="text-sm font-normal cursor-pointer">
+                      Remember me
+                    </FormLabel>
+                  </FormItem>
+                )}
+              />
+
 
               {serverError && (
                 <p className="text-sm font-medium text-destructive">{serverError}</p>

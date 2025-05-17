@@ -25,6 +25,7 @@ const registerSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email address.' }),
   password: z.string()
     .min(8, { message: 'Password must be at least 8 characters.' })
+    .regex(/[A-Z]/, { message: 'Password must contain at least one uppercase letter.' })
     .regex(/\d/, { message: 'Password must contain at least one number.' })
     .regex(/[^a-zA-Z0-9]/, { message: 'Password must contain at least one special character.' }),
   confirmPassword: z.string(),
@@ -62,7 +63,10 @@ export default function RegisterPage() {
     //   const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
     //   // Update user profile with fullName if necessary
     //   // await updateProfile(userCredential.user, { displayName: values.fullName });
-    //   router.push('/'); // Redirect to dashboard or home
+    //   // Send email verification
+    //   // await sendEmailVerification(userCredential.user);
+    //   alert('Account created. Please check your email to verify your account.');
+    //   router.push('/login'); 
     // } catch (error: any) {
     //   if (error.code === 'auth/email-already-in-use') {
     //     setServerError('This email address is already in use.');
@@ -73,7 +77,7 @@ export default function RegisterPage() {
     // }
     setIsLoading(false);
     // For demonstration:
-    alert('Account created successfully (simulated). Please login.');
+    alert('Account created successfully (simulated). Please login. (In a real app, email verification would be sent).');
     router.push('/login');
   }
 
