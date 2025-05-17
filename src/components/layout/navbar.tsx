@@ -1,15 +1,17 @@
+
 "use client";
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Home, ClipboardCheck, List } from 'lucide-react';
+import { Home, ClipboardCheck, List, ShieldCheck } from 'lucide-react';
 
 const navItems = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/diagnostic', label: 'Diagnostic Tool', icon: ClipboardCheck },
   { href: '/providers', label: 'Providers', icon: List },
+  { href: '/admin', label: 'Admin', icon: ShieldCheck },
 ];
 
 export function Navbar() {
