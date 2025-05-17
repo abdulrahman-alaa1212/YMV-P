@@ -1,40 +1,59 @@
-"use client"; // For potential future client-side filtering
+
+"use client"; 
 
 import React, { useState, useMemo } from 'react';
 import { ProviderCard } from '@/components/provider-card';
 import type { Provider } from '@/types';
-import { providersData } from '@/lib/constants'; // Static data for providers
+import { providersData } from '@/lib/constants'; 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, ListFilter } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
+import { Search, ListFilter, Tags, CpuChip } from 'lucide-react'; // Assuming CpuChip is a good icon for technology
 
 export default function ProvidersPage() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedSpecialty, setSelectedSpecialty] = useState<string>('all');
-  const [selectedTechnology, setSelectedTechnology] = useState<string>('all');
+  const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
+  const [selectedTechnologies, setSelectedTechnologies] = useState<string[]>([]);
 
   const allSpecialties = useMemo(() => {
     const specialties = new Set<string>();
     providersData.forEach(p => p.specialties.forEach(s => specialties.add(s)));
-    return ['all', ...Array.from(specialties).sort()];
+    return Array.from(specialties).sort();
   }, []);
 
   const allTechnologies = useMemo(() => {
     const technologies = new Set<string>();
     providersData.forEach(p => p.technologies.forEach(t => technologies.add(t)));
-    return ['all', ...Array.from(technologies).sort()];
+    return Array.from(technologies).sort();
   }, []);
+
+  const handleSpecialtyChange = (specialty: string, checked: boolean) => {
+    setSelectedSpecialties(prev => 
+      checked ? [...prev, specialty] : prev.filter(s => s !== specialty)
+    );
+  };
+
+  const handleTechnologyChange = (technology: string, checked: boolean) => {
+    setSelectedTechnologies(prev => 
+      checked ? [...prev, technology] : prev.filter(t => t !== technology)
+    );
+  };
 
   const filteredProviders = useMemo(() => {
     return providersData.filter(provider => {
       const matchesSearchTerm = provider.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                                 provider.description.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesSpecialty = selectedSpecialty === 'all' || provider.specialties.includes(selectedSpecialty);
-      const matchesTechnology = selectedTechnology === 'all' || provider.technologies.includes(selectedTechnology);
+      
+      const matchesSpecialty = selectedSpecialties.length === 0 || 
+                               provider.specialties.some(s => selectedSpecialties.includes(s));
+      
+      const matchesTechnology = selectedTechnologies.length === 0 || 
+                                provider.technologies.some(t => selectedTechnologies.includes(t));
+                                
       return matchesSearchTerm && matchesSpecialty && matchesTechnology;
     });
-  }, [searchTerm, selectedSpecialty, selectedTechnology]);
+  }, [searchTerm, selectedSpecialties, selectedTechnologies]);
 
 
   return (
@@ -50,53 +69,59 @@ export default function ProvidersPage() {
 
       <Card className="p-6 shadow-lg">
         <CardContent className="space-y-6 p-0">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-            <div className="md:col-span-1 space-y-2">
-              <label htmlFor="search-provider" className="text-sm font-medium text-foreground flex items-center">
-                <Search className="h-4 w-4 mr-2 text-primary" /> Search Providers
-              </label>
-              <Input
-                id="search-provider"
-                type="text"
-                placeholder="Search by name or keyword..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="text-base"
-              />
+          <div className="space-y-2">
+            <Label htmlFor="search-provider" className="text-lg font-medium text-foreground flex items-center">
+              <Search className="h-5 w-5 mr-2 text-primary" /> Search Providers
+            </Label>
+            <Input
+              id="search-provider"
+              type="text"
+              placeholder="Search by name or keyword..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="text-base"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+            <div className="space-y-3">
+              <h3 className="text-lg font-medium text-foreground flex items-center">
+                <Tags className="h-5 w-5 mr-2 text-primary" /> Filter by Specialty
+              </h3>
+              <div className="space-y-2 max-h-60 overflow-y-auto pr-2 rounded-md border p-3 bg-muted/20">
+                {allSpecialties.map(specialty => (
+                  <div key={specialty} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={`specialty-${specialty}`}
+                      checked={selectedSpecialties.includes(specialty)}
+                      onCheckedChange={(checked) => handleSpecialtyChange(specialty, !!checked)}
+                    />
+                    <Label htmlFor={`specialty-${specialty}`} className="text-sm font-normal capitalize cursor-pointer">
+                      {specialty}
+                    </Label>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="space-y-2">
-              <label htmlFor="filter-specialty" className="text-sm font-medium text-foreground flex items-center">
-                 <ListFilter className="h-4 w-4 mr-2 text-primary" /> Filter by Specialty
-              </label>
-              <Select value={selectedSpecialty} onValueChange={setSelectedSpecialty}>
-                <SelectTrigger id="filter-specialty" className="text-base">
-                  <SelectValue placeholder="All Specialties" />
-                </SelectTrigger>
-                <SelectContent>
-                  {allSpecialties.map(specialty => (
-                    <SelectItem key={specialty} value={specialty} className="capitalize">
-                      {specialty === 'all' ? 'All Specialties' : specialty}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="filter-technology" className="text-sm font-medium text-foreground flex items-center">
-                <ListFilter className="h-4 w-4 mr-2 text-primary" /> Filter by Technology
-              </label>
-              <Select value={selectedTechnology} onValueChange={setSelectedTechnology}>
-                <SelectTrigger id="filter-technology" className="text-base">
-                  <SelectValue placeholder="All Technologies" />
-                </SelectTrigger>
-                <SelectContent>
-                  {allTechnologies.map(tech => (
-                    <SelectItem key={tech} value={tech} className="capitalize">
-                       {tech === 'all' ? 'All Technologies' : tech}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+
+            <div className="space-y-3">
+              <h3 className="text-lg font-medium text-foreground flex items-center">
+                <CpuChip className="h-5 w-5 mr-2 text-primary" /> Filter by Technology
+              </h3>
+              <div className="space-y-2 max-h-60 overflow-y-auto pr-2 rounded-md border p-3 bg-muted/20">
+                {allTechnologies.map(tech => (
+                  <div key={tech} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={`tech-${tech}`}
+                      checked={selectedTechnologies.includes(tech)}
+                      onCheckedChange={(checked) => handleTechnologyChange(tech, !!checked)}
+                    />
+                    <Label htmlFor={`tech-${tech}`} className="text-sm font-normal capitalize cursor-pointer">
+                       {tech}
+                    </Label>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </CardContent>
@@ -113,7 +138,7 @@ export default function ProvidersPage() {
           <CardContent>
             <Search className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
             <p className="text-xl text-foreground">No providers match your current filters.</p>
-            <p className="text-muted-foreground">Try adjusting your search or filter criteria.</p>
+            <p className="text-muted-foreground">Try adjusting your search or filter criteria, or clear some filters.</p>
           </CardContent>
         </Card>
       )}

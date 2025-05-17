@@ -1,3 +1,4 @@
+
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -171,7 +172,7 @@ export function DiagnosticForm({ onSuccess, onLoadingChange, onError }: Diagnost
               <FormLabel className="flex items-center text-lg"><FileText className="mr-2 h-5 w-5 text-primary" />Needs Assessment</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Describe specific challenges, goals, or areas where AR/MR could help. For example, improving surgical navigation, enhancing medical training, patient education, etc."
+                  placeholder="Describe specific challenges, goals, or areas where AR/MR could help. For example: 'We want to improve surgical navigation accuracy using AR for orthopedic procedures,' or 'Enhance medical training for complex cardiac surgeries with MR simulations,' or 'Provide AR-based tools for better patient education regarding post-operative care.'"
                   className="resize-y min-h-[150px] text-base"
                   {...field}
                 />

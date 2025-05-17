@@ -1,7 +1,8 @@
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Lightbulb, Target, Users, FileText, PlayCircle, Search } from 'lucide-react';
+import { Lightbulb, Target, Users, FileText, PlayCircle, Search, Clock3 } from 'lucide-react';
 import Image from 'next/image';
 
 const features = [
@@ -38,14 +39,20 @@ export default function LandingPage() {
           AR/MR Advisor helps hospitals like yours navigate the complex landscape of Augmented and Mixed Reality.
           Discover tailored solutions to enhance patient care, surgical precision, and medical training.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 items-center">
           <Link href="/diagnostic" passHref>
             <Button size="lg" className="text-lg px-8 py-6">
               <PlayCircle className="mr-2 h-5 w-5" />
               Start Diagnostic
             </Button>
           </Link>
-          <Link href="/providers" passHref>
+          <div className="flex items-center text-sm text-muted-foreground">
+            <Clock3 className="mr-1 h-4 w-4" />
+            <span>Quick Assessment (approx. 3 min)</span>
+          </div>
+        </div>
+        <div className="pt-2">
+         <Link href="/providers" passHref>
             <Button variant="secondary" size="lg" className="text-lg px-8 py-6">
               <Search className="mr-2 h-5 w-5" />
               Explore Providers
@@ -58,10 +65,10 @@ export default function LandingPage() {
         <div className="relative w-full h-64 md:h-96 rounded-xl overflow-hidden shadow-xl">
           <Image
             src="https://placehold.co/1200x600.png"
-            alt="Futuristic healthcare technology"
+            alt="Futuristic healthcare technology with AR/MR overlay"
             layout="fill"
             objectFit="cover"
-            data-ai-hint="futuristic healthcare"
+            data-ai-hint="medical AR overlay"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-primary/50 to-transparent"></div>
            <div className="absolute bottom-0 left-0 p-6 md:p-10">
