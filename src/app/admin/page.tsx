@@ -1,18 +1,67 @@
 
+"use client"; // This is crucial for using hooks like useEffect and useState
+
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { Settings, LayoutList, FileText } from 'lucide-react';
+import { Settings, LayoutList, FileText, LogOut } from 'lucide-react';
+import { Loader2 } from 'lucide-react'; // For loading state
 
 export default function AdminPage() {
+  const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Start with loading true
+
+  useEffect(() => {
+    // Check for authentication status on client-side
+    const adminAuth = localStorage.getItem('isAdminAuthenticated');
+    if (adminAuth === 'true') {
+      setIsAuthenticated(true);
+    } else {
+      router.push('/login'); // Redirect to login if not authenticated
+    }
+    setIsLoading(false); // Set loading to false after check
+  }, [router]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('isAdminAuthenticated');
+    router.push('/login');
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-10rem)] text-center p-10">
+        <Loader2 className="h-16 w-16 text-primary animate-spin mb-6" />
+        <p className="text-xl font-semibold text-primary">Verifying access...</p>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    // This ideally should not be reached if redirect works, but as a fallback
+    return (
+        <div className="flex flex-col items-center justify-center min-h-[calc(100vh-10rem)] text-center p-10">
+            <p className="text-xl font-semibold text-destructive">Access Denied.</p>
+            <p className="text-muted-foreground">Redirecting to login...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8 py-8">
       <Card className="shadow-xl">
-        <CardHeader>
-          <CardTitle className="text-3xl font-bold text-primary">Admin Dashboard</CardTitle>
-          <CardDescription className="text-lg">
-            Manage your Yura Mid-Vision application settings and content.
-          </CardDescription>
+        <CardHeader className="flex flex-row justify-between items-center">
+          <div>
+            <CardTitle className="text-3xl font-bold text-primary">Admin Dashboard</CardTitle>
+            <CardDescription className="text-lg">
+              Manage your Yura Mid-Vision application settings and content.
+            </CardDescription>
+          </div>
+          <Button onClick={handleLogout} variant="outline">
+            <LogOut className="mr-2 h-4 w-4" />
+            Logout
+          </Button>
         </CardHeader>
         <CardContent className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <Card className="shadow-md hover:shadow-lg transition-shadow">
@@ -24,9 +73,6 @@ export default function AdminPage() {
               <p className="text-muted-foreground mb-4 min-h-[60px]">
                 Add, edit, or remove AR/MR solution providers from the directory.
               </p>
-              {/* <Link href="/admin/providers" passHref>
-                <Button>Go to Provider Management</Button>
-              </Link> */}
               <Button disabled className="w-full">Go to Provider Management (Soon)</Button>
             </CardContent>
           </Card>
@@ -40,9 +86,6 @@ export default function AdminPage() {
               <p className="text-muted-foreground mb-4 min-h-[60px]">
                 Update text and images on the landing page and other informational sections.
               </p>
-               {/* <Link href="/admin/content" passHref>
-                <Button>Go to Content Management</Button>
-              </Link> */}
               <Button disabled className="w-full">Go to Content Management (Soon)</Button>
             </CardContent>
           </Card>
@@ -56,9 +99,6 @@ export default function AdminPage() {
               <p className="text-muted-foreground mb-4 min-h-[60px]">
                 Configure general site settings, themes, or integrations.
               </p>
-              {/* <Link href="/admin/settings" passHref>
-                <Button>Go to Site Settings</Button>
-              </Link> */}
               <Button disabled className="w-full">Go to Site Settings (Soon)</Button>
             </CardContent>
           </Card>
@@ -70,3 +110,5 @@ export default function AdminPage() {
     </div>
   );
 }
+
+    

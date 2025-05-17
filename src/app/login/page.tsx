@@ -50,8 +50,8 @@ export default function LoginPage() {
     // Simulate Admin Login
     if (values.email === 'admin' && values.password === 'admin') {
       await new Promise(resolve => setTimeout(resolve, 500)); // Short delay for simulation
+      localStorage.setItem('isAdminAuthenticated', 'true'); // Set admin auth flag
       setIsLoading(false);
-      alert('Admin login successful (simulated). Redirecting to admin dashboard...');
       router.push('/admin');
       return;
     }
@@ -83,8 +83,9 @@ export default function LoginPage() {
     //   console.error("Login error:", error);
     // }
     setIsLoading(false);
-    // For demonstration, let's assume login is successful
-    alert('Login successful (simulated). Redirecting...');
+    // For demonstration, let's assume login is successful for regular users
+    localStorage.removeItem('isAdminAuthenticated'); // Ensure admin flag is cleared for non-admin logins
+    alert('Login successful (simulated for regular user). Redirecting...');
     router.push('/'); 
   }
 
@@ -107,7 +108,7 @@ export default function LoginPage() {
                   <FormItem>
                     <FormLabel className="flex items-center text-md"><Mail className="mr-2 h-4 w-4 text-primary" />Email Address</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="you@example.com" {...field} className="text-base"/>
+                      <Input type="email" placeholder="you@example.com or 'admin'" {...field} className="text-base"/>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -120,7 +121,7 @@ export default function LoginPage() {
                   <FormItem>
                     <FormLabel className="flex items-center text-md"><Lock className="mr-2 h-4 w-4 text-primary" />Password</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="••••••••" {...field} className="text-base"/>
+                      <Input type="password" placeholder="•••••••• or 'admin'" {...field} className="text-base"/>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -175,3 +176,5 @@ export default function LoginPage() {
     </div>
   );
 }
+
+    
