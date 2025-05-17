@@ -9,7 +9,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { Search, Tags, Cpu } from 'lucide-react'; 
+import { Search, Tags, Cpu, Filter as FilterIcon } from 'lucide-react'; 
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 export default function ProvidersPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -83,57 +84,69 @@ export default function ProvidersPage() {
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
-            <div className="space-y-3">
-              <h3 className="text-lg font-medium text-foreground flex items-center">
-                <Tags className="h-5 w-5 mr-2 text-primary" /> Filter by Specialty
-                {selectedSpecialties.length > 0 && (
-                  <span className="ml-2 text-xs font-normal text-muted-foreground">
-                    ({selectedSpecialties.length} selected)
-                  </span>
-                )}
-              </h3>
-              <div className="space-y-2 mt-2">
-                {allSpecialties.map(specialty => (
-                  <div key={specialty} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={`specialty-${specialty}`}
-                      checked={selectedSpecialties.includes(specialty)}
-                      onCheckedChange={(checked) => handleSpecialtyChange(specialty, checked)}
-                    />
-                    <Label htmlFor={`specialty-${specialty}`} className="text-sm font-normal capitalize cursor-pointer">
-                      {specialty}
-                    </Label>
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="filters-accordion">
+              <AccordionTrigger className="text-xl font-semibold text-primary hover:no-underline py-3">
+                <div className="flex items-center">
+                  <FilterIcon className="h-6 w-6 mr-3" />
+                  <span>Show Filters</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="pt-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
+                  <div className="space-y-3">
+                    <h3 className="text-lg font-medium text-foreground flex items-center">
+                      <Tags className="h-5 w-5 mr-2 text-primary" /> Filter by Specialty
+                      {selectedSpecialties.length > 0 && (
+                        <span className="ml-2 text-xs font-normal text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
+                          {selectedSpecialties.length} selected
+                        </span>
+                      )}
+                    </h3>
+                    <div className="space-y-2 mt-2">
+                      {allSpecialties.map(specialty => (
+                        <div key={specialty} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`specialty-${specialty}`}
+                            checked={selectedSpecialties.includes(specialty)}
+                            onCheckedChange={(checked) => handleSpecialtyChange(specialty, checked)}
+                          />
+                          <Label htmlFor={`specialty-${specialty}`} className="text-sm font-normal capitalize cursor-pointer hover:text-primary transition-colors">
+                            {specialty}
+                          </Label>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                ))}
-              </div>
-            </div>
 
-            <div className="space-y-3">
-              <h3 className="text-lg font-medium text-foreground flex items-center">
-                <Cpu className="h-5 w-5 mr-2 text-primary" /> Filter by Technology
-                {selectedTechnologies.length > 0 && (
-                  <span className="ml-2 text-xs font-normal text-muted-foreground">
-                    ({selectedTechnologies.length} selected)
-                  </span>
-                )}
-              </h3>
-              <div className="space-y-2 mt-2">
-                {allTechnologies.map(tech => (
-                  <div key={tech} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={`tech-${tech}`}
-                      checked={selectedTechnologies.includes(tech)}
-                      onCheckedChange={(checked) => handleTechnologyChange(tech, checked)}
-                    />
-                    <Label htmlFor={`tech-${tech}`} className="text-sm font-normal capitalize cursor-pointer">
-                       {tech}
-                    </Label>
+                  <div className="space-y-3">
+                    <h3 className="text-lg font-medium text-foreground flex items-center">
+                      <Cpu className="h-5 w-5 mr-2 text-primary" /> Filter by Technology
+                      {selectedTechnologies.length > 0 && (
+                        <span className="ml-2 text-xs font-normal text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
+                          {selectedTechnologies.length} selected
+                        </span>
+                      )}
+                    </h3>
+                    <div className="space-y-2 mt-2">
+                      {allTechnologies.map(tech => (
+                        <div key={tech} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`tech-${tech}`}
+                            checked={selectedTechnologies.includes(tech)}
+                            onCheckedChange={(checked) => handleTechnologyChange(tech, checked)}
+                          />
+                          <Label htmlFor={`tech-${tech}`} className="text-sm font-normal capitalize cursor-pointer hover:text-primary transition-colors">
+                            {tech}
+                          </Label>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                ))}
-              </div>
-            </div>
-          </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </CardContent>
       </Card>
 
@@ -155,3 +168,4 @@ export default function ProvidersPage() {
     </div>
   );
 }
+
