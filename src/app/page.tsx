@@ -66,6 +66,9 @@ export default function LandingPage() {
                 Explore Providers
               </Button>
             </Link>
+            <p className="text-sm text-muted-foreground mt-2 text-center max-w-md mx-auto">
+              Filter by specialty, technology, and more to find your ideal partner.
+            </p>
           </div>
         </div>
       </section>
