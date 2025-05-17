@@ -39,7 +39,7 @@ export default function LandingPage() {
           AR/MR Advisor helps hospitals like yours navigate the complex landscape of Augmented and Mixed Reality.
           Discover tailored solutions to enhance patient care, surgical precision, and medical training.
         </p>
-        <div className="flex flex-col gap-4 justify-center pt-4 items-center">
+        <div className="flex flex-col gap-4 justify-center items-center pt-4">
           <Link href="/diagnostic" passHref>
             <Button size="lg" className="text-lg px-8 py-6">
               <PlayCircle className="mr-2 h-5 w-5" />
@@ -65,10 +65,10 @@ export default function LandingPage() {
         <div className="relative w-full h-64 md:h-96 rounded-xl overflow-hidden shadow-xl">
           <Image
             src="https://placehold.co/1200x400.png"
-            alt="Futuristic healthcare technology with AR/MR overlay showing a doctor interacting with a holographic patient interface."
+            alt="Doctor using AR headset for surgery or medical analysis"
             layout="fill"
             objectFit="cover"
-            data-ai-hint="medical AR overlay"
+            data-ai-hint="medical AR surgery"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-primary/50 to-transparent"></div>
            <div className="absolute bottom-0 left-0 p-6 md:p-10">
@@ -96,16 +96,22 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="text-center space-y-6 bg-card p-8 md:p-12 rounded-xl shadow-xl">
-        <h2 className="text-3xl font-bold text-primary">Ready to Transform Your Hospital?</h2>
-        <p className="text-lg text-foreground max-w-2xl mx-auto">
-          Take the first step towards integrating cutting-edge AR/MR solutions. Our tools are designed to provide clarity and direction.
-        </p>
-        <Link href="/diagnostic" passHref>
-          <Button size="lg" className="text-lg px-8 py-6">
-            Get Started Now
-          </Button>
-        </Link>
+      <section className="text-center md:text-left bg-card p-8 md:p-12 rounded-xl shadow-xl md:grid md:grid-cols-5 md:gap-8 md:items-center">
+        <div className="space-y-4 md:col-span-3">
+          <h2 className="text-3xl font-bold text-primary">
+            Ready to Transform Your Hospital?
+          </h2>
+          <p className="text-lg text-foreground max-w-2xl mx-auto md:mx-0 md:max-w-none">
+            Take the first step towards integrating cutting-edge AR/MR solutions. Our tools are designed to provide clarity and direction.
+          </p>
+        </div>
+        <div className="mt-6 md:mt-0 md:col-span-2 flex md:justify-end justify-center">
+          <Link href="/diagnostic" passHref>
+            <Button size="lg" className="text-lg px-8 py-6">
+              Get Started Now
+            </Button>
+          </Link>
+        </div>
       </section>
     </div>
   );
