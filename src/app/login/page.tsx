@@ -20,6 +20,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { LogIn, Mail, Lock } from 'lucide-react';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'; 
+import { supabase } from '@/lib/supabaseClient'; // Import Supabase client
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email address.' }),
@@ -47,49 +48,42 @@ export default function LoginPage() {
     setIsLoading(true);
     setServerError(null);
 
-    // Simulate Admin Login
+    // Simulate Admin Login - This part can remain if you have a separate admin login flow
+    // Or be removed/adapted if admin login also goes through Supabase
     if (values.email === 'admin' && values.password === 'admin') {
-      await new Promise(resolve => setTimeout(resolve, 500)); // Short delay for simulation
-      localStorage.setItem('isAdminAuthenticated', 'true'); // Set admin auth flag
-      window.dispatchEvent(new Event('adminAuthChanged')); // Notify navbar
+      await new Promise(resolve => setTimeout(resolve, 500)); 
+      localStorage.setItem('isAdminAuthenticated', 'true'); 
+      window.dispatchEvent(new Event('adminAuthChanged')); 
       setIsLoading(false);
       router.push('/admin');
       return;
     }
 
-    // Simulate regular API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    console.log('Login submitted:', values);
-    // In a real app, you'd call your auth API here.
-    // Example with Firebase:
-    // try {
-    //   if (values.rememberMe) {
-    //     await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-    //   } else {
-    //     await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
-    //   }
-    //   const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
-    //   if (userCredential.user) {
-    //      router.push('/'); // Redirect to dashboard or home
-    //   }
-    // } catch (error: any) {
-    //   if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
-    //     setServerError("Invalid email or password.");
-    //   } else if (error.code === 'auth/too-many-requests') {
-    //     setServerError("Too many failed login attempts. Please try again later or reset your password.");
-    //   }
-    //   else {
-    //     setServerError("An unexpected error occurred. Please try again.");
-    //   }
-    //   console.error("Login error:", error);
-    // }
-    setIsLoading(false);
-    // For demonstration, let's assume login is successful for regular users
-    localStorage.removeItem('isAdminAuthenticated'); // Ensure admin flag is cleared for non-admin logins
-    window.dispatchEvent(new Event('adminAuthChanged')); // Notify navbar
-    alert('Login successful (simulated for regular user). Redirecting...');
-    router.push('/'); 
-  }
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: values.email,
+        password: values.password,
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      // Handle successful login
+      // You might want to store user session or redirect
+      console.log('Supabase login successful:', data);
+      localStorage.removeItem('isAdminAuthenticated'); // Ensure admin flag is cleared
+      window.dispatchEvent(new Event('adminAuthChanged'));
+      alert('Login successful! Redirecting...');
+      router.push('/'); // Redirect to dashboard or home
+
+    } catch (error: any) {
+      console.error("Login error:", error);
+      setServerError(error.message || 'An unexpected error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  } // Corrected end of onSubmit function. The extraneous code block previously here has been removed.
 
   return (
     <div className="flex min-h-[calc(100vh-10rem)] items-center justify-center py-12">
@@ -177,4 +171,4 @@ export default function LoginPage() {
       </Card>
     </div>
   );
-}
+} // Corrected end of LoginPage component, ensuring no trailing characters or syntax errors.

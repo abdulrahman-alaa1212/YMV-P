@@ -19,6 +19,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { UserPlus, Mail, Lock, User } from 'lucide-react';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabaseClient'; // Import Supabase client
 
 const registerSchema = z.object({
   fullName: z.string().min(2, { message: 'Full name must be at least 2 characters.' }),
@@ -54,31 +55,39 @@ export default function RegisterPage() {
   async function onSubmit(values: RegisterFormValues) {
     setIsLoading(true);
     setServerError(null);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    console.log('Registration submitted:', values);
-    // In a real app, you'd call your auth API (e.g., Firebase createUserWithEmailAndPassword)
-    // Example:
-    // try {
-    //   const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
-    //   // Update user profile with fullName if necessary
-    //   // await updateProfile(userCredential.user, { displayName: values.fullName });
-    //   // Send email verification
-    //   // await sendEmailVerification(userCredential.user);
-    //   alert('Account created. Please check your email to verify your account.');
-    //   router.push('/login'); 
-    // } catch (error: any) {
-    //   if (error.code === 'auth/email-already-in-use') {
-    //     setServerError('This email address is already in use.');
-    //   } else {
-    //     setServerError('Failed to create account. Please try again.');
-    //   }
-    //   console.error("Registration error:", error);
-    // }
-    setIsLoading(false);
-    // For demonstration:
-    alert('Account created successfully (simulated). Please login. (In a real app, email verification would be sent).');
-    router.push('/login');
+
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: values.email,
+        password: values.password,
+        options: {
+          data: {
+            full_name: values.fullName,
+          },
+        },
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      // Check if user object exists and if email confirmation is needed
+      if (data.user && data.user.identities && data.user.identities.length > 0) {
+        alert('Account created successfully! Please check your email to verify your account.');
+        router.push('/login');
+      } else {
+        // This case might occur if email confirmation is not required by Supabase settings
+        // or if there's an unexpected response structure.
+        alert('Account created successfully! Please login.');
+        router.push('/login');
+      }
+
+    } catch (error: any) {
+      console.error("Registration error:", error);
+      setServerError(error.message || 'Failed to create account. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (

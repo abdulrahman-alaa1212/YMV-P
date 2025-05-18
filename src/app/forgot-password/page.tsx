@@ -18,6 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Mail, Send } from 'lucide-react';
 import React, { useState } from 'react';
+import { supabase } from '@/lib/supabaseClient'; // Import Supabase client
 
 const forgotPasswordSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email address.' }),
@@ -41,25 +42,23 @@ export default function ForgotPasswordPage() {
     setIsLoading(true);
     setServerError(null);
     setIsSuccess(false);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    console.log('Forgot password submitted for:', values.email);
-    // In a real app, you'd call your auth API (e.g., Firebase sendPasswordResetEmail)
-    // Example:
-    // try {
-    //   await sendPasswordResetEmail(auth, values.email);
-    //   setIsSuccess(true);
-    // } catch (error: any) {
-    //   if (error.code === 'auth/user-not-found') {
-    //     setServerError('No user found with this email address.');
-    //   } else {
-    //     setServerError('Failed to send password reset email. Please try again.');
-    //   }
-    //   console.error("Forgot password error:", error);
-    // }
-    setIsLoading(false);
-    // For demonstration:
-    setIsSuccess(true);
+
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(values.email, {
+        redirectTo: `${window.location.origin}/reset-password`, // URL to redirect to after email confirmation
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      setIsSuccess(true);
+    } catch (error: any) {
+      console.error("Forgot password error:", error);
+      setServerError(error.message || 'Failed to send password reset email. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
