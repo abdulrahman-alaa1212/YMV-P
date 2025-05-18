@@ -14,7 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { Input } from '@/components/ui/input';import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { UserPlus, Mail, Lock, User } from 'lucide-react';
 import React, { useState } from 'react';
@@ -93,7 +93,10 @@ export default function RegisterPage() {
   return (
     <div className="flex min-h-[calc(100vh-10rem)] items-center justify-center py-12">
       <Card className="w-full max-w-lg shadow-xl">
-        <CardHeader className="text-center">
+        <div className="flex justify-center pt-6">
+          <Image src="/images/yura-1.png" alt="Yura Logo" width={80} height={80} />
+        </div>
+        <CardHeader className="text-center pt-2">
           <CardTitle className="text-3xl font-bold text-primary">Create Your Account</CardTitle>
           <CardDescription className="text-lg">
             Join Yura Mid-Vision to revolutionize your healthcare services.

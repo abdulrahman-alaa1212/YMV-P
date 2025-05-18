@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
+import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { LogIn, Mail, Lock } from 'lucide-react';
 import React, { useState } from 'react';
@@ -50,7 +51,7 @@ export default function LoginPage() {
 
     // Simulate Admin Login - This part can remain if you have a separate admin login flow
     // Or be removed/adapted if admin login also goes through Supabase
-    if (values.email === 'admin' && values.password === 'admin') {
+    if (values.email === 'abdelrahman.alaa1212@gmail.com' && values.password === '11223344') {
       await new Promise(resolve => setTimeout(resolve, 500)); 
       localStorage.setItem('isAdminAuthenticated', 'true'); 
       window.dispatchEvent(new Event('adminAuthChanged')); 
@@ -88,7 +89,10 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-[calc(100vh-10rem)] items-center justify-center py-12">
       <Card className="w-full max-w-md shadow-xl">
-        <CardHeader className="text-center">
+        <div className="flex justify-center pt-6">
+          <Image src="/images/yura-1.png" alt="Yura Logo" width={80} height={80} />
+        </div>
+        <CardHeader className="text-center pt-2">
           <CardTitle className="text-3xl font-bold text-primary">Welcome Back!</CardTitle>
           <CardDescription className="text-lg">
             Sign in to access your Yura Mid-Vision account.

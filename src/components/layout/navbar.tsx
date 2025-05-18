@@ -1,12 +1,13 @@
 
 "use client";
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation'; // Added useRouter
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Home, ClipboardCheck, List, ShieldCheck, LogIn } from 'lucide-react';
+import { Home, ClipboardCheck, List, ShieldCheck, LogIn, LogOut } from 'lucide-react'; // Added LogOut
 import React, { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabaseClient'; // Added supabase client
 
 const mainNavItems = [
   { href: '/', label: 'Home', icon: Home },
@@ -20,7 +21,9 @@ const authNavItems = [
 
 export function Navbar() {
   const pathname = usePathname();
+  const router = useRouter(); // Added router instance
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+  const [isSupabaseUserLoggedIn, setIsSupabaseUserLoggedIn] = useState(false); // State for Supabase user
 
   useEffect(() => {
     const checkAdminStatus = () => {
@@ -28,24 +31,53 @@ export function Navbar() {
       setIsAdminLoggedIn(adminAuth === 'true');
     };
 
-    checkAdminStatus(); // Check on initial load
+    const checkSupabaseUserStatus = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsSupabaseUserLoggedIn(!!session);
+    };
 
-    // Listen for storage changes to update status if login/logout happens in another tab/window
+    checkAdminStatus();
+    checkSupabaseUserStatus();
+
     window.addEventListener('storage', checkAdminStatus);
-
-    // Listen for a custom event that can be dispatched from the login/logout pages
-    // This helps update the navbar immediately without a page reload
     const handleAdminAuthChange = () => {
         checkAdminStatus();
     };
     window.addEventListener('adminAuthChanged', handleAdminAuthChange);
 
+    // Listen for Supabase auth state changes
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      setIsSupabaseUserLoggedIn(!!session);
+      // If user logs out, and was admin, clear admin state too
+      if (event === 'SIGNED_OUT' && isAdminLoggedIn) {
+        localStorage.removeItem('isAdminAuthenticated');
+        setIsAdminLoggedIn(false);
+        window.dispatchEvent(new Event('adminAuthChanged'));
+      }
+    });
 
     return () => {
       window.removeEventListener('storage', checkAdminStatus);
       window.removeEventListener('adminAuthChanged', handleAdminAuthChange);
+      authListener?.subscription.unsubscribe(); // Unsubscribe from Supabase auth listener
     };
-  }, []);
+  }, [isAdminLoggedIn]); // Added isAdminLoggedIn to dependency array
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error('Error logging out:', error);
+      // Optionally show an error message to the user
+    } else {
+      // Clear admin state if it was set, as Supabase logout should be primary
+      if (localStorage.getItem('isAdminAuthenticated')) {
+        localStorage.removeItem('isAdminAuthenticated');
+        window.dispatchEvent(new Event('adminAuthChanged'));
+      }
+      setIsSupabaseUserLoggedIn(false); // Update state immediately
+      router.push('/login'); // Redirect to login page
+    }
+  };
 
   return (
     <header className="bg-card shadow-md sticky top-0 z-50">
@@ -86,7 +118,7 @@ export function Navbar() {
               </Button>
             </Link>
           )}
-          {authNavItems.map((item) => {
+          {!isSupabaseUserLoggedIn && !isAdminLoggedIn && authNavItems.map((item) => { // Conditionally render login if no user/admin
             const isActive = pathname === item.href || (item.href === '/login' && (pathname === '/register' || pathname === '/forgot-password'));
             return (
               <Link key={item.href} href={item.href} legacyBehavior passHref>
@@ -103,6 +135,18 @@ export function Navbar() {
               </Link>
             );
           })}
+          {isSupabaseUserLoggedIn && (
+            <Button
+              variant={'ghost'}
+              className={cn(
+                "text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground"
+              )}
+              onClick={handleLogout}
+            >
+              <LogOut className="mr-0 sm:mr-2 h-4 w-4" />
+              <span className="hidden sm:inline">Logout</span>
+            </Button>
+          )}
         </nav>
       </div>
     </header>

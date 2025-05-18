@@ -1,0 +1,40 @@
+{
+  "inputs": [
+    {
+      "type": "promptString",
+      "id": "pg_url",
+      "description": "PostgreSQL URL (e.g. postgresql://user:pass@localhost:5432/mydb)"
+    },
+    {
+      "type": "promptString",
+      "id": "tare_pg_url",
+      "description": "PostgreSQL URL for tare (e.g. postgresql://user:pass@localhost:5432/mydb)"
+    }
+  ],
+  "mcpServers": {
+    "postgres": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "${input:pg_url}"
+      ]
+    },
+    "tare": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "${input:tare_pg_url}"
+      ]
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "${workspaceFolder}"
+      ]
+    }
+  }
+}

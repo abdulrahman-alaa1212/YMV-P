@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from 'next/link';
@@ -67,7 +66,7 @@ export default function ForgotPasswordPage() {
         <CardHeader className="text-center">
           <CardTitle className="text-3xl font-bold text-primary">Reset Your Password</CardTitle>
           <CardDescription className="text-lg">
-            Enter your email address and we&apos;ll send you a link to reset your password.
+            Enter your email address and we'll send you a link to reset your password.
           </CardDescription>
         </CardHeader>
         <CardContent>

@@ -31,7 +31,7 @@ const features = [
 export default function LandingPage() {
   return (
     <div className="space-y-16 py-8">
-      <section className="text-center space-y-6">
+      <section className="text-center space-y-6 py-16">
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-primary">
           Unlock the Future of Healthcare with AR/MR
         </h1>
@@ -40,41 +40,29 @@ export default function LandingPage() {
           Discover tailored solutions to enhance patient care, surgical precision, and medical training.
         </p>
         
-        <div className="pt-4">
-          <div className="flex flex-col items-center gap-y-2">
-            <Link href="/diagnostic" passHref>
-              <Button size="lg" className="text-lg px-8 py-6">
-                <PlayCircle className="mr-2 h-5 w-5" />
-                Start Diagnostic
-              </Button>
-            </Link>
-            <div className="flex items-center text-sm text-muted-foreground">
-              <Clock3 className="mr-1 h-4 w-4" />
-              <span>Quick Assessment (approx. 3 min)</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="pt-8">
-          <div className="flex flex-col items-center space-y-3">
-            <p className="text-md text-foreground max-w-xl mx-auto">
-              Or, browse our curated directory of leading AR/MR solution providers to find the perfect match for your hospital's unique requirements.
-            </p>
-           <Link href="/providers" passHref>
-              <Button variant="secondary" size="lg" className="text-lg px-8 py-6">
-                <Search className="mr-2 h-5 w-5" />
-                Explore Providers
-              </Button>
-            </Link>
-            <p className="text-sm text-muted-foreground mt-2 text-center max-w-md mx-auto">
-              Filter by specialty, technology, and more to find your ideal partner.
-            </p>
+        <div className="pt-8 flex flex-col items-center justify-center">
+          <Link href="/diagnostic" passHref>
+            <Button size="lg" className="text-lg px-8 py-6 mb-2">
+              Start Diagnostic
+            </Button>
+          </Link>
+          <div className="flex items-center text-sm text-muted-foreground">
+            <Clock3 className="mr-1 h-4 w-4" />
+            <span>Quick Assessment Report</span>
           </div>
         </div>
       </section>
-
-      <section className="space-y-8">
-        <h2 className="text-3xl font-bold text-center text-primary">How Yura Mid-Vision Works</h2>
+ 
+      <section className="space-y-8 py-8 bg-card p-8 md:p-12 rounded-xl shadow-xl">
+       <h2 className="text-3xl font-bold text-center text-primary">Explore Providers</h2>
+        <div className="mt-6 text-center">
+          <Link href="/providers" passHref>
+            <Button size="lg" variant="outline" className="text-lg px-8 py-6 border border-primary text-primary hover:bg-primary hover:text-white hover:border-700 rounded">
+              Explore
+            </Button>
+          </Link>
+        </div>
+        <p className="text-lg text-foreground/80 text-center max-w-3xl mx-auto">Explore a curated list of leading AR/MR solution providers to find the perfect partner for your hospital's needs.</p>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((feature) => (
             <Card key={feature.title} className="text-center shadow-lg hover:shadow-xl transition-shadow duration-300">

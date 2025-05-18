@@ -8,7 +8,7 @@ body {
 
 @layer base {
   :root {
-    --background: 188 67% 90%; /* Baby Blue */
+    --background: 220 14.3% 95.9%; /* Light Grey */
     --foreground: 201 89% 19%; /* Navy Blue */
 
     --card: 0 0% 100%; /* White */
@@ -55,7 +55,7 @@ body {
   }
 
   .dark {
-    --background: 201 89% 19%; /* Navy Blue */
+    --background: 240 10% 3.9%; /* Dark Grey */
     --foreground: 188 67% 90%; /* Baby Blue */
 
     --card: 201 89% 24%; /* Slightly lighter Navy Blue */
